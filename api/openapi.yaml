@@ -1,0 +1,73 @@
+openapi: 3.0.1
+info:
+  title: MarmotBlog-Serverless
+  description: API configuration for the MarmotBlog serverless architecture.
+  version: 1.0.0
+
+paths:
+  /:
+    get:
+      summary: Serve React frontend from S3
+      responses:
+        '200':
+          description: Index page
+          content:
+            text/html:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        type: http_proxy
+        uri: https://marmotblog-ui.s3.us-east-1.amazonaws.com/index.html
+        httpMethod: GET
+        payloadFormatVersion: '1.0'
+        passthroughBehavior: when_no_match
+#  uncomment once lambdas indicated are built
+
+#  /posts:
+#    get:
+#      summary: Get posts
+#      responses:
+#        '200':
+#          description: List of posts
+#      x-amazon-apigateway-integration:
+#        type: aws_proxy
+#        httpMethod: POST
+#        uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/your-get-posts-lambda-arn/invocations
+#
+#    post:
+#      summary: Create a new post
+#      requestBody:
+#        description: Post data
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              type: object
+#              properties:
+#                title:
+#                  type: string
+#                content:
+#                  type: string
+#      responses:
+#        '201':
+#          description: Post created
+#      x-amazon-apigateway-integration:
+#        type: aws_proxy
+#        httpMethod: POST
+#        uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/your-create-post-lambda-arn/invocations
+
+x-amazon-apigateway-importexport-version: '1.0'
+x-amazon-apigateway-request-validator: ALL
+
+x-amazon-apigateway-cors:
+  allowOrigins:
+    - '*'
+  allowMethods:
+    - GET
+    - POST
+  allowHeaders:
+    - Content-Type
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token

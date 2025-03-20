@@ -62,29 +62,30 @@ jobs:
 #            fi
 #          done
 
-  deploy-api-gateway:
-    name: Deploy OpenAPI to API Gateway
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Deploy OpenAPI specification
-        run: |
-          api_id=${{ secrets.API_GATEWAY_ID }}
-          aws apigateway put-rest-api \
-            --rest-api-id $api_id \
-            --mode overwrite \
-            --body fileb://api/openapi.yaml
-
-          aws apigateway create-deployment \
-            --rest-api-id $api_id \
-            --stage-name production
+# a gateway isn't needed for the root route, so comment out until needed for BE
+#  deploy-api-gateway:
+#    name: Deploy OpenAPI to API Gateway
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: us-east-2
+#
+#      - name: Deploy OpenAPI specification
+#        run: |
+#          api_id=${{ secrets.API_GATEWAY_ID }}
+#          aws apigateway put-rest-api \
+#            --rest-api-id $api_id \
+#            --mode overwrite \
+#            --body fileb://api/openapi.yaml
+#
+#          aws apigateway create-deployment \
+#            --rest-api-id $api_id \
+#            --stage-name production

@@ -83,7 +83,7 @@ jobs:
           aws apigateway put-rest-api \
             --rest-api-id $api_id \
             --mode overwrite \
-            --body fileb://services/api/openapi.yaml
+            --body fileb://api/openapi.yaml
 
           aws apigateway create-deployment \
             --rest-api-id $api_id \

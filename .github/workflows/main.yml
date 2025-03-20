@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-ui:
-    name: Deploy UI to S3
+    name: Build and Deploy UI to S3
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Install Dependencies and Build React app
+        run: |
+          cd frontend/marmotblog
+          npm install
+          npm run build 
 
       - name: Sync UI to S3
         run: |
